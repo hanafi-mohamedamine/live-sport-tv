@@ -74,26 +74,23 @@ function resolveUrl(rel, base) {
   try { return new URL(rel, base).href; } catch(e) { return rel; }
 }
 
-function rewriteM3u8(body, baseUrl) {
-  const proxyBase = `http://localhost:${PORT}/proxy?url=`;
+function rewriteM3u8(body, baseUrl, proxyBase) {
   return body.split('\n').map(line => {
     const t = line.trim();
     if (!t) return line;
-    // Rewrite URI="" attributes in tags like #EXT-X-MAP, #EXT-X-KEY, #EXT-X-MEDIA
     if (t.startsWith('#')) {
       return line.replace(/URI="([^"]+)"/g, (_, uri) => {
         const abs = resolveUrl(uri, baseUrl);
         return `URI="${proxyBase}${encodeURIComponent(abs)}"`;
       });
     }
-    // Segment/sub-playlist URL
     const abs = resolveUrl(t, baseUrl);
     return proxyBase + encodeURIComponent(abs);
   }).join('\n');
 }
 
-function fetchUpstream(targetUrl, res, redirects = 0) {
-  if (redirects > 6) {
+function fetchUpstream(targetUrl, res, proxyBase, redirects) {
+  if ((redirects || 0) > 6) {
     res.writeHead(502, { ...CORS, 'Content-Type': 'text/plain' });
     res.end('Too many redirects');
     return;
@@ -124,7 +121,7 @@ function fetchUpstream(targetUrl, res, redirects = 0) {
     // Follow redirects
     if ([301,302,303,307,308].includes(status) && loc) {
       proxyRes.resume();
-      fetchUpstream(resolveUrl(loc, targetUrl), res, redirects + 1);
+      fetchUpstream(resolveUrl(loc, targetUrl), res, proxyBase, (redirects || 0) + 1);
       return;
     }
 
@@ -145,7 +142,7 @@ function fetchUpstream(targetUrl, res, redirects = 0) {
       proxyRes.setEncoding('utf8');
       proxyRes.on('data', c => data += c);
       proxyRes.on('end', () => {
-        const rewritten = rewriteM3u8(data, targetUrl);
+        const rewritten = rewriteM3u8(data, targetUrl, proxyBase);
         const buf = Buffer.from(rewritten, 'utf8');
         outHeaders['Content-Length'] = buf.length;
         res.writeHead(status < 400 ? status : 200, outHeaders);
@@ -234,6 +231,10 @@ const server = http.createServer((req, res) => {
   const parsed   = new URL(req.url, `http://localhost:${PORT}`);
   const pathname = parsed.pathname;
 
+  // Detect host & protocol (works locally and in cloud behind reverse proxy)
+  const host = req.headers['host'] || `${LOCAL_IP}:${PORT}`;
+  const protocol = req.headers['x-forwarded-proto'] || 'http';
+
   // CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, CORS);
@@ -243,9 +244,6 @@ const server = http.createServer((req, res) => {
 
   // /playlist.m3u → M3U playlist for IPTV apps
   if (pathname === '/playlist.m3u') {
-    // Use request Host header so URLs work both locally and in cloud
-    const host = req.headers['host'] || `${LOCAL_IP}:${PORT}`;
-    const protocol = req.headers['x-forwarded-proto'] || 'http';
     const BASE = 'http://yusftsoreforver.ddns.net';
     const bein  = n    => `${BASE}/live/ar/qa/bein/bein_sport_${n}_hd/tracks-v1a1/mono.ts.m3u8`;
     const kunit = name => `${BASE}/live/ku/ku/unit/${name}/index.m3u8`;
@@ -293,8 +291,9 @@ const server = http.createServer((req, res) => {
       res.end('Missing ?url=');
       return;
     }
+    const proxyBase = `${protocol}://${host}/proxy?url=`;
     console.log(`[PROXY] ${target.substring(0, 90)}`);
-    fetchUpstream(target, res);
+    fetchUpstream(target, res, proxyBase);
     return;
   }
 
