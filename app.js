@@ -122,11 +122,11 @@ function loadStream(rawUrl) {
     const hls = new Hls({
       enableWorker: true,
       lowLatencyMode: true,
-      liveSyncDurationCount: 3,
-      liveMaxLatencyDurationCount: 10,
-      maxBufferLength: 30,
-      manifestLoadingTimeOut: 15000,
-      fragLoadingTimeOut: 20000,
+      liveSyncDurationCount: 1,
+      liveMaxLatencyDurationCount: 4,
+      maxBufferLength: 8, maxMaxBufferLength: 15, startFragPrefetch: true, testBandwidth: false,
+      manifestLoadingTimeOut: 10000, manifestLoadingMaxRetry: 3,
+      fragLoadingTimeOut: 15000,
     });
     hlsInstance = hls;
 
