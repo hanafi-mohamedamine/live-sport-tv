@@ -1,11 +1,8 @@
 /**
  * Cloudflare Pages Function — catch-all handler
  * Handles: /proxy?url=  /playlist.m3u  /check?url=
- * Playlist streams go through Railway proxy (Cloudflare IPs are blocked by upstream)
+ * 100% Cloudflare — gratuit pour toujours, pas besoin de Railway
  */
-
-// Railway proxy for actual streaming
-const RAILWAY = 'https://live-sport-tv-production.up.railway.app/proxy?url=';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -84,7 +81,7 @@ export async function onRequest(context) {
     let m3u = '#EXTM3U x-tvg-url=""\n';
     for (const ch of channels) {
       m3u += `#EXTINF:-1 tvg-id="${ch.id}" tvg-name="${ch.name}" tvg-logo="${ch.logo}" group-title="${ch.group}",${ch.name}\n`;
-      m3u += `${RAILWAY}${encodeURIComponent(ch.url)}\n`;
+      m3u += `${proxyBase}${encodeURIComponent(ch.url)}\n`;
     }
 
     return new Response(m3u, {
