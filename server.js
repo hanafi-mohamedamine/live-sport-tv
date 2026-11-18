@@ -244,7 +244,7 @@ const server = http.createServer((req, res) => {
 
   // /playlist.m3u → M3U playlist for IPTV apps
   if (pathname === '/playlist.m3u') {
-    const BASE = 'http://yusftsoreforver.ddns.net';
+    const BASE = 'http://dashcloudflare.ddns.net';
     const bein  = n    => `${BASE}/live/ar/qa/bein/bein_sport_${n}_hd/tracks-v1a1/mono.ts.m3u8`;
     const kunit = name => `${BASE}/live/ku/ku/unit/${name}/index.m3u8`;
     const solo  = `${BASE}/live/ar/xx/solo/solo_1_hd/tracks-v1a1/mono.ts.m3u8`;
