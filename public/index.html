@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIVE — Stream Sport TV</title>
+  <meta name="description" content="Regardez vos chaînes sport en direct, streaming HD gratuit">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="brand-icon">📡</span>
+      <span class="brand-text">LIVE<span class="brand-dot">.</span></span>
+      <span class="brand-sub">SPORT TV</span>
+    </div>
+    <div class="topbar-status">
+      <span class="live-badge">
+        <span class="live-dot"></span>
+        EN DIRECT
+      </span>
+      <span class="viewer-count">🔴 HD</span>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="app-layout" id="appLayout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Liste des chaînes">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">CHAÎNES</h2>
+        <span class="channel-count">15 LIVE</span>
+      </div>
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Rechercher..." autocomplete="off">
+      </div>
+      <div class="channel-list" id="channelList" role="listbox" aria-label="Sélectionner une chaîne"></div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <section class="player-section">
+
+        <!-- Info bar -->
+        <div class="channel-infobar">
+          <div class="channel-infobar-left">
+            <span class="channel-infobar-icon">📺</span>
+            <div>
+              <span class="channel-infobar-label">LIVE CHANNEL</span>
+              <h1 class="channel-infobar-name" id="channelTitle">BeIN SPORT 1</h1>
+            </div>
+          </div>
+          <div class="channel-infobar-right">
+            <span class="quality-badge">HD</span>
+            <span class="stream-status" id="streamStatus">⏳ Chargement…</span>
+          </div>
+        </div>
+
+        <!-- Player -->
+        <div class="player-wrapper">
+          <div class="player-container" id="playerContainer">
+            <video
+              id="mainPlayer"
+              playsinline
+              controls
+              autoplay
+              muted
+            ></video>
+            <div class="player-loading" id="playerLoading">
+              <div class="loader-ring"></div>
+              <span id="loadingText">Connexion au flux…</span>
+            </div>
+            <div class="player-error" id="playerError" style="display:none">
+              <span class="error-icon">⚠️</span>
+              <strong>Flux indisponible</strong>
+              <p id="errorMsg">Essayez un autre serveur ci-dessous</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Server selector -->
+        <div class="server-panel">
+          <div class="server-panel-label">
+            <span class="server-dot"></span>
+            <span>SERVEUR</span>
+          </div>
+          <div class="server-buttons" id="serverButtons" role="group"></div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
