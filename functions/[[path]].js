@@ -69,13 +69,13 @@ export async function onRequest(context) {
       { id:6,  name:'BeIN SPORT 6', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(6) },
       { id:7,  name:'BeIN SPORT 7', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(7) },
       { id:8,  name:'BeIN SPORT 8', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(8) },
-      { id:9,  name:'NRT SPORT',    group:'Autres',     logo: '',         url: kunit('nrt_sport') },
+      { id:9,  name:'NRT SPORT',    group:'Kurdistan',     logo: '',         url: kunit('nrt_sport') },
       { id:10, name:'LD SPORT',     group:'Autres',     logo: '',         url: bein(1) },
-      { id:11, name:'AVA SPORT',    group:'Autres',     logo: '',         url: kunit('Ava_Sport') },
-      { id:12, name:'NRT SPORT 2',  group:'Autres',     logo: '',         url: kunit('nrt_sport') },
-      { id:13, name:'ASO SPORT',    group:'Autres',     logo: '',         url: kunit('aso_sport') },
-      { id:14, name:'FALCON EYE',   group:'Autres',     logo: '',         url: kunit('falcone_1') },
-      { id:15, name:'SOLO 1 HD',    group:'Autres',     logo: '',         url: solo },
+      { id:11, name:'AVA SPORT',    group:'Kurdistan',     logo: '',         url: 'https://183.giatvcdn.com/giatv/giatv-yusfstoreavasport/yusfstoreavasport/chunks.m3u8' },
+      { id:12, name:'NRT SPORT 2',  group:'Kurdistan',     logo: '',         url: kunit('nrt_sport') },
+      { id:13, name:'ASO SPORT',    group:'Kurdistan',     logo: '',         url: kunit('aso_sport') },
+      { id:14, name:'FALCON EYE',   group:'Kurdistan',     logo: '',         url: kunit('falcone_1') },
+      { id:15, name:'SOLO 1 HD',    group:'Kurdistan',     logo: '',         url: solo },
     ];
 
     let m3u = '#EXTM3U x-tvg-url=""\n';
