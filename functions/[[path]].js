@@ -60,7 +60,13 @@ export async function onRequest(context) {
     const solo  = `${BASE}/live/ar/xx/solo/solo_1_hd/tracks-v1a1/mono.ts.m3u8`;
     const BEIN_LOGO = 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/BeIN_Sports_logo.svg/200px-BeIN_Sports_logo.svg.png';
 
+    const ALWAN_LOGO = 'https://alwanlive.stream/favicon.ico';
+    const AVA_LOGO   = 'https://mixmedia.tv/wp-content/uploads/2023/12/ava-sport.png';
+    const NRT_LOGO   = 'https://mixmedia.tv/wp-content/uploads/2022/08/nrt-sport.png';
+    const ASO_LOGO   = 'https://mixmedia.tv/wp-content/uploads/2024/05/ASO-Sport.png';
+
     const channels = [
+      // ── BeIN Sport ──────────────────────────────────────────────
       { id:1,  name:'BeIN SPORT 1', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(1) },
       { id:2,  name:'BeIN SPORT 2', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(2) },
       { id:3,  name:'BeIN SPORT 3', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(3) },
@@ -69,13 +75,21 @@ export async function onRequest(context) {
       { id:6,  name:'BeIN SPORT 6', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(6) },
       { id:7,  name:'BeIN SPORT 7', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(7) },
       { id:8,  name:'BeIN SPORT 8', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(8) },
-      { id:9,  name:'NRT SPORT',    group:'Kurdistan',     logo: '',         url: kunit('nrt_sport') },
-      { id:10, name:'LD SPORT',     group:'Autres',     logo: '',         url: bein(1) },
-      { id:11, name:'AVA SPORT',    group:'Kurdistan',     logo: '',         url: 'https://183.giatvcdn.com/giatv/giatv-yusfstoreavasport/yusfstoreavasport/chunks.m3u8' },
-      { id:12, name:'NRT SPORT 2',  group:'Kurdistan',     logo: '',         url: kunit('nrt_sport') },
-      { id:13, name:'ASO SPORT',    group:'Kurdistan',     logo: '',         url: kunit('aso_sport') },
-      { id:14, name:'FALCON EYE',   group:'Kurdistan',     logo: '',         url: kunit('falcone_1') },
-      { id:15, name:'SOLO 1 HD',    group:'Kurdistan',     logo: '',         url: solo },
+      // ── Alwan Sport (logo vert) ──────────────────────────────────
+      { id:21, name:'ALWAN SPORT 1', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara137152/chunks.m3u8' },
+      { id:22, name:'ALWAN SPORT 2', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara1371523/chunks.m3u8' },
+      { id:23, name:'ALWAN SPORT 3', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara1371524/chunks.m3u8' },
+      { id:24, name:'ALWAN SPORT 4', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/alwan5websitealwanlive5/chunks.m3u8' },
+      { id:25, name:'ALWAN SPORT 5', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/alwan5websitealwanlive2/chunks.m3u8' },
+      { id:26, name:'ALWAN SPORT 6', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/alwan6websitealwanlive6/chunks.m3u8' },
+      { id:27, name:'ALWAN SPORT 7', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/live/biner-zaxo/playlist.m3u8' },
+      // ── Kurdistan ─────────────────────────────────────────────────
+      { id:9,  name:'NRT SPORT',    group:'Kurdistan', logo: NRT_LOGO, url: kunit('nrt_sport') },
+      { id:11, name:'AVA SPORT',    group:'Kurdistan', logo: AVA_LOGO, url: 'https://183.giatvcdn.com/giatv/giatv-yusfstoreavasport/yusfstoreavasport/chunks.m3u8' },
+      { id:12, name:'NRT SPORT 2',  group:'Kurdistan', logo: NRT_LOGO, url: kunit('nrt_sport') },
+      { id:13, name:'ASO SPORT',    group:'Kurdistan', logo: ASO_LOGO, url: kunit('aso_sport') },
+      { id:14, name:'FALCON EYE',   group:'Kurdistan', logo: '',       url: kunit('falcone_1') },
+      { id:15, name:'SOLO 1 HD',    group:'Kurdistan', logo: '',       url: solo },
     ];
 
     let m3u = '#EXTM3U x-tvg-url=""\n';
