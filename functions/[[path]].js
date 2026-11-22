@@ -76,8 +76,8 @@ export async function onRequest(context) {
       { id:7,  name:'BeIN SPORT 7', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(7) },
       { id:8,  name:'BeIN SPORT 8', group:'BeIN Sport', logo: BEIN_LOGO, url: bein(8) },
       // ── Alwan Sport (logo vert) ──────────────────────────────────
-      { id:21, name:'ALWAN SPORT 1', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara137152/chunks.m3u8' },
-      { id:22, name:'ALWAN SPORT 2', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara1371523/chunks.m3u8' },
+      { id:21, name:'ALWAN SPORT 1', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'http://d12xh5ppj9sxwj.cloudfront.net/alwan_sport1fhd/tracks-v1a1/mono.json?token=5409e599ead8f8dc30584921f2cbda9c', direct: true },
+      { id:22, name:'ALWAN SPORT 2', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'http://d12xh5ppj9sxwj.cloudfront.net/alwan_sport2fhd/tracks-v1a1/mono.json?token=5409e599ead8f8dc30584921f2cbda9c', direct: true },
       { id:23, name:'ALWAN SPORT 3', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/yusfdara1371524/chunks.m3u8' },
       { id:24, name:'ALWAN SPORT 4', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/alwan5websitealwanlive5/chunks.m3u8' },
       { id:25, name:'ALWAN SPORT 5', group:'Alwan Sport', logo: ALWAN_LOGO, url: 'https://lbgo.bozztv.com/ssh101/ssh101/alwan5websitealwanlive2/chunks.m3u8' },
@@ -95,7 +95,9 @@ export async function onRequest(context) {
     let m3u = '#EXTM3U x-tvg-url=""\n';
     for (const ch of channels) {
       m3u += `#EXTINF:-1 tvg-id="${ch.id}" tvg-name="${ch.name}" tvg-logo="${ch.logo}" group-title="${ch.group}",${ch.name}\n`;
-      m3u += `${proxyBase}${encodeURIComponent(ch.url)}\n`;
+      // direct:true = pas de proxy (CDN restreint les proxies)
+      const streamUrl = ch.direct ? ch.url : `${proxyBase}${encodeURIComponent(ch.url)}`;
+      m3u += `${streamUrl}\n`;
     }
 
     return new Response(m3u, {
